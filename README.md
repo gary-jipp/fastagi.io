@@ -45,8 +45,9 @@ const demoAgi = (channel) => {
   });
 
 
-  // url params are inside the channel object
+  // URlSearchParams object included in the channel object 
   const params = channel.params;
+  console.log(params);
 
   channel.get("count")    // Get channel variable "count"
     .then(res => {
