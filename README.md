@@ -4,13 +4,13 @@
 
 `fastagi.io` is build on top of the great `asterisk.io` library and provides an Express-like feel to writing AGI's for asterisk.  If you are used to using node Express then you'll find `fastagi.io` really familiar.  All AGI methods are promise-based so no callback hell.
 
-Note:   The "basic" Asterisk AGI diaplan functions are implemented as methods and there is a generic `exec` method which can call arbitrary AGI functions.  A future version of `fastagi.io` will include all the AGI dialplanfunctions
+Note:   All the common Asterisk AGI diaplan functions are implemented as methods and there is a generic `exec` method which can any AGI function.
 
 https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+AGI+Commands
 
 Example:
 
-`server.js`
+### `server.js`
 ```
 require('dotenv').config();
 const fastagi = require("fastagi.io");
@@ -31,11 +31,13 @@ app.listen(PORT, () => {
 });
 ```
 
-`demo1Agi.js`
+### `demo1Agi.js`
 ```
 const demoAgi = (channel) => {
 
-  // These 3  are optional, often not needed
+  console.log("Demo Connection received");
+
+  // These listeners are optional
   channel.on('hangup', function() {
     console.log('channel hangup');
   });
@@ -48,35 +50,53 @@ const demoAgi = (channel) => {
     console.log('error!', err);
   });
 
+  // params are in the channel object
+  console.log(channel.params);
 
-  // params included in the channel object. Duplicates in array
-  const params = channel.params;
-  console.log(params);
-
-  channel.get("count")    // Get channel variable "count"
+  channel.getVariable("count")
     .then(res => {
-      return channel.sayDigits(1234, "");  // Play something
+      console.log("count =", res.data);
     })
     .then(res => {
-      return channel.exec('Say Date "1754330073" ""');  // Play something
+      const time = Math.floor(Date.now() / 1000);
+      return channel.sayTime(time, "1236");
+    })
+    .then(res => {
+      return channel.verbose("TEST MESSAGE", "3");
+    })
+    .then(res => {
+      return channel.getData("demo-congrats", 4, 6);
+    })
+    .then(res => {
+      console.log(res);
+      return channel.sayNumber(res.result, "*12");
+    })
+    .then(res => {
+      console.log(res);
+      channel.setVariable("STATUS", 100);
     })
     .then(() => {
-      channel.setVariable("STATUS", 100);   // Set channel variable "STATUS"
+      channel.setVariable("CODE", 200);
     })
     .then(() => {
-      channel.close();              // return control back to dialplan
+      channel.close();    // return control back to dialplan
+    })
+    .catch(err => {
+      console.log(err);
     });
 };
 
 module.exports = demoAgi;
+
+module.exports = demoAgi;
 ```
-`extensions.conf`
+### `extensions.conf`
 ```
 [demo1] ; Demo
 exten  = s,1, NoOp()
   same = n, Answer()
   same = n, Set(count=199)
-  same = n, AGI(agi://localhost/demo1?param1=123&param2=456)
+  same = n, AGI(agi://localhost/demo1?param=123&param=456&param2=789)
   same = n, Verbose(2, STATUS=${STATUS}, CODE=${CODE}})
   same = n, hangup();
 ```

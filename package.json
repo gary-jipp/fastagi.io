@@ -1,6 +1,6 @@
 {
   "name": "fastagi.io",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "Asterisk node.js fastAgi Express-like Interface",
   "main": "index.js",
   "repository": {
