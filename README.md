@@ -47,7 +47,7 @@ const demoAgi = (channel) => {
   });
 
 
-  // URlSearchParams object included in the channel object 
+  // params included in the channel object. Duplicates in array
   const params = channel.params;
   console.log(params);
 
