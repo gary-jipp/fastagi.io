@@ -1,0 +1,31 @@
+{
+  "name": "fastagi.io",
+  "version": "1.2.0",
+  "description": "Asterisk node.js fastAgi Express-like Interface",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gary-jipp/asterisk.io.git"
+  },
+  "keywords": [
+    "asterisk",
+    "fastagi",
+    "dialplan",
+    "agi",
+    "pbx"
+],
+  "author": "Gary J",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gary-jipp/asterisk.io/issues"
+  },
+  "homepage": "https://github.com/gary-jipp/asterisk.io#readme",
+  "dependencies": {
+    "asterisk.io": "^0.1.1",
+    "dotenv": "^15.0.0",
+    "querystring": "^0.2.1"
+  }
+}
