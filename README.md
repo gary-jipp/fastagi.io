@@ -4,6 +4,8 @@
 
 `fastagi.io` is build on top of the great `asterisk.io` library and provides an Express-like feel to writing AGI's for asterisk.  If you are used to using node Express then you'll find `fastagi.io` really familiar.  All AGI methods are promise-based so no callback hell.
 
+Note:   Not all Asterisk AGI functions are implemented yet but there is a generic `exec` method that can call arbitrary AGI functions.  The next version of `fastagi.io` will include almost all the AGI functions
+
 Example:
 
 `server.js`
