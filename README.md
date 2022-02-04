@@ -6,6 +6,8 @@
 
 Note:   The "basic" Asterisk AGI diaplan functions are implemented as methods and there is a generic `exec` method which can call arbitrary AGI functions.  A future version of `fastagi.io` will include all the AGI dialplanfunctions
 
+https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+AGI+Commands
+
 Example:
 
 `server.js`
@@ -53,10 +55,13 @@ const demoAgi = (channel) => {
 
   channel.get("count")    // Get channel variable "count"
     .then(res => {
+      return channel.sayDigits(1234, "");  // Play something
+    })
+    .then(res => {
       return channel.exec('Say Date "1754330073" ""');  // Play something
     })
     .then(() => {
-      channel.set("STATUS", 100);   // Set channel variable "STATUS"
+      channel.setVariable("STATUS", 100);   // Set channel variable "STATUS"
     })
     .then(() => {
       channel.close();              // return control back to dialplan
